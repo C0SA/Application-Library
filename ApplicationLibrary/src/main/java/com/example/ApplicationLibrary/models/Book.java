@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Getter
 @Setter
@@ -47,4 +50,13 @@ public class Book {
 
 
     }
+
+    //this part is for categories
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="book_categories",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name="category_id")
+    )
+    private Set<Category> categories=new HashSet<>();
 }
