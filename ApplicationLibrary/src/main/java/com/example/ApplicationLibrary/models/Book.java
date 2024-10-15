@@ -2,6 +2,7 @@ package com.example.ApplicationLibrary.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
@@ -27,7 +28,7 @@ public class Book {
     private String author;
 
     @Column(nullable = false)
-    @NotEmpty(message = "Book publication year is required")
+    @NotNull(message = "Book publication year is required")
     private Integer publication_year;
 
 

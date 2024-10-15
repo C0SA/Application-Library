@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/account").permitAll()
                         .requestMatchers("/account/login").permitAll()
                         .requestMatchers("/account/register").permitAll()
+                        .requestMatchers("/books/**").hasRole("ADMIN")
                         .anyRequest().authenticated() //to access any other link
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
