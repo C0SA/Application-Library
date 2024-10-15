@@ -2,6 +2,9 @@ package com.example.ApplicationLibrary.controller;
 
 
 import com.example.ApplicationLibrary.models.Book;
+import com.example.ApplicationLibrary.models.Category;
+import com.example.ApplicationLibrary.repository.BookRepository;
+import com.example.ApplicationLibrary.repository.CategoryRepository;
 import com.example.ApplicationLibrary.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,32 @@ import java.util.Optional;
 public class BookController {
     @Autowired
     private BookService bookService;
+
+    //Two AutoWired below are for adding categories to books
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @PostMapping("/{bookId}/categories/{categoryId}")
+    public ResponseEntity<Book> addCategoryToBook(@PathVariable Long bookId, @PathVariable Long categoryId) {
+        Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+
+        if(bookOptional.isPresent() && categoryOptional.isPresent()) {
+            Book book = bookOptional.get();
+            Category category = categoryOptional.get();
+
+            book.getCategories().add(category);
+            bookRepository.save(book);
+            return ResponseEntity.ok(book);
+
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks(){
