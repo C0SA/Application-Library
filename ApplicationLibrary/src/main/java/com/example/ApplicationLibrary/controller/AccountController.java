@@ -76,7 +76,7 @@ public class AccountController {
         appUser.setUsername(registerDto.getUsername());
         appUser.setEmail(registerDto.getEmail());
         appUser.setPassword(bCryptEncoder.encode(registerDto.getPassword()));
-        appUser.setRole("USER");
+        appUser.setRole("ADMIN");
 
         //checking if username or email are already in use
         try{
@@ -146,6 +146,17 @@ public class AccountController {
             ex.printStackTrace();
         }
         return ResponseEntity.badRequest().body("Bad username or password");
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable int id) {
+        var user = appUserRepository.findById(id);
+
+        if (user.isPresent()) {
+            appUserRepository.deleteById(id);
+            return ResponseEntity.ok("User with ID " + id + " has been deleted successfully.");
+        } else {
+            return ResponseEntity.status(404).body("User with ID " + id + " not found.");
+        }
     }
 
 
