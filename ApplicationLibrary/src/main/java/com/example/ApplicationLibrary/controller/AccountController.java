@@ -3,6 +3,7 @@ package com.example.ApplicationLibrary.controller;
 import com.example.ApplicationLibrary.models.AppUser;
 import com.example.ApplicationLibrary.models.LoginDto;
 import com.example.ApplicationLibrary.models.RegisterDto;
+import com.example.ApplicationLibrary.models.Role;
 import com.example.ApplicationLibrary.repository.AppUserRepository;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import jakarta.validation.Valid;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/account")
@@ -76,7 +78,11 @@ public class AccountController {
         appUser.setUsername(registerDto.getUsername());
         appUser.setEmail(registerDto.getEmail());
         appUser.setPassword(bCryptEncoder.encode(registerDto.getPassword()));
-        appUser.setRole("ADMIN");
+        try {
+            appUser.setRole(Role.valueOf(registerDto.getRole().toUpperCase())); // Validate and set role
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("WRONG ROLE. Options: USER, ADMIN.");
+        }
 
         //checking if username or email are already in use
         try{
@@ -170,7 +176,7 @@ public class AccountController {
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(24*3600))
                 .subject(appUser.getUsername())
-                .claim("role",appUser.getRole())
+                .claim("roles", List.of(appUser.getRole()))
                 .build();
 
 

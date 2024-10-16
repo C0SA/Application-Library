@@ -18,6 +18,17 @@ public class RegisterDto {
     @Size(min = 6, message = "Minimun password length is 6 characters")
     private String password;
 
+    @NotEmpty
+    private String role;
+
+    public @NotEmpty String getRole() {
+        return role;
+    }
+
+    public void setRole(@NotEmpty String role) {
+        this.role = role;
+    }
+
     public @NotEmpty String getUsername() {
         return username;
     }

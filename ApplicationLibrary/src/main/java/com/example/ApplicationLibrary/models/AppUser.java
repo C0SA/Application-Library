@@ -31,6 +31,7 @@ public class AppUser {
     private String email;
 
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }
