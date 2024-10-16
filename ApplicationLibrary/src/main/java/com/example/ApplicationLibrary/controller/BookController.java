@@ -95,4 +95,35 @@ public class BookController {
 
     }
 
+
+    //4. point in pdf below
+
+
+
+    @GetMapping("/status")
+    public ResponseEntity<List<Book>> getBooksByStatus(@RequestParam Book.Status status) {
+        List<Book> books = bookService.getBooksByStatus(status);
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Book>> searchBooks(@RequestParam String title) {
+        List<Book> books = bookService.searchBooksByName(title);
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<List<Book>> getBooksByCategory(@RequestParam String categoryName) {
+        List<Book> books = bookService.getBooksByCategory(categoryName);
+        return ResponseEntity.ok(books);
+    }
+
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Book>> filterBooks(@RequestParam(required = false) Book.Status status, @RequestParam(required = false) String categoryName) {
+        List<Book> filteredBooks = bookService.getBooksByStatusAndCategory(status, categoryName);
+        return ResponseEntity.ok(filteredBooks);
+    }
+
+
 }

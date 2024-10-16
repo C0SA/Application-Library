@@ -40,6 +40,32 @@ public class BookService {
     }
 
 
+    //4. point in pdf below
+
+    public List<Book> getAllBooks(){
+        return bookRepository.findAll();
+    }
+
+
+    public List<Book> getBooksByStatus(Book.Status status) {
+        return bookRepository.findByStatus(status);
+    }
+
+    public List<Book> searchBooksByName(String title) {
+        return bookRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    public List<Book> getBooksByCategory(String categoryName) {
+        return bookRepository.findByCategories_Name(categoryName);
+    }
+
+    //For filtering with categoryName and status
+
+    public List<Book> getBooksByStatusAndCategory(Book.Status status, String categoryName) {
+        return bookRepository.findByStatusAndCategoryName(status, categoryName);
+    }
+
+
 
 
 }

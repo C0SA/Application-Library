@@ -45,7 +45,6 @@ public class Book {
 
     public enum Status {
         AVAILABLE,
-        UNAVAILABLE,
         CHECKED_OUT
 
 
