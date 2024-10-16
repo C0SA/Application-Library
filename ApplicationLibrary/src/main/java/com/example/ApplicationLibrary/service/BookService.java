@@ -2,6 +2,7 @@ package com.example.ApplicationLibrary.service;
 
 import com.example.ApplicationLibrary.models.Book;
 import com.example.ApplicationLibrary.repository.BookRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +66,41 @@ public class BookService {
         return bookRepository.findByStatusAndCategoryName(status, categoryName);
     }
 
+
+    // 5. point in pdf, borrowing and returning books
+
+
+    //For borrowing book
+    @Transactional
+    public Book borrowBook(Long bookId) {
+
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+        System.out.println("Current status before return: " + book.getStatus());
+
+        book.setStatus(Book.Status.CHECKED_OUT);
+
+        Book updatedBook = bookRepository.save(book);
+
+        System.out.println("New status after return: " + updatedBook.getStatus());
+
+        return bookRepository.save(book);
+    }
+
+
+    //For returning book
+    @Transactional
+    public Book returnBook(Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+
+        System.out.println("Current status before return: " + book.getStatus());
+
+        book.setStatus(Book.Status.AVAILABLE);
+
+        Book updatedBook = bookRepository.save(book);
+
+        System.out.println("New status after return: " + updatedBook.getStatus());
+        return updatedBook;
+    }
 
 
 

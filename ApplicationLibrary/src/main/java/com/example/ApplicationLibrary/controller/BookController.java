@@ -126,4 +126,28 @@ public class BookController {
     }
 
 
+    //5. point in pdf borrowing and returning books
+
+    @PutMapping("/{id}/borrow")
+    public ResponseEntity<Book>  borrowBook(@PathVariable Long id){
+        try {
+            Book borrowBook = bookService.borrowBook(id);
+            return ResponseEntity.ok(borrowBook);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}/return")
+    public ResponseEntity<Book>  returnBook(@PathVariable Long id){
+        try {
+            Book returndBook = bookService.returnBook(id);
+            return ResponseEntity.ok(returndBook);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
 }
