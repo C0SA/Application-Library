@@ -6,6 +6,7 @@ import com.example.ApplicationLibrary.models.Category;
 import com.example.ApplicationLibrary.repository.BookRepository;
 import com.example.ApplicationLibrary.repository.CategoryRepository;
 import com.example.ApplicationLibrary.service.BookService;
+import com.example.ApplicationLibrary.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,8 @@ public class BookController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private TransactionService transactionService;
 
     @PostMapping("/{bookId}/categories/{categoryId}")
     public ResponseEntity<Book> addCategoryToBook(@PathVariable Long bookId, @PathVariable Long categoryId) {
@@ -132,6 +135,7 @@ public class BookController {
     public ResponseEntity<Book>  borrowBook(@PathVariable Long id){
         try {
             Book borrowBook = bookService.borrowBook(id);
+            transactionService.recordTransaction(1L,id,"borrowed");
             return ResponseEntity.ok(borrowBook);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -142,6 +146,8 @@ public class BookController {
     public ResponseEntity<Book>  returnBook(@PathVariable Long id){
         try {
             Book returndBook = bookService.returnBook(id);
+            transactionService.recordTransaction(1L,id,"returned");
+
             return ResponseEntity.ok(returndBook);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

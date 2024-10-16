@@ -15,6 +15,8 @@ public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private TransactionService transactionService;
 
     public List<Book> findAll(){
         return bookRepository.findAll();
@@ -80,6 +82,7 @@ public class BookService {
         book.setStatus(Book.Status.CHECKED_OUT);
 
         Book updatedBook = bookRepository.save(book);
+
 
         System.out.println("New status after return: " + updatedBook.getStatus());
 
