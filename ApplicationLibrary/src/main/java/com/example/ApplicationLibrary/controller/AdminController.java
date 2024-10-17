@@ -20,15 +20,4 @@ public class AdminController {
         List<AppUser> users = appUserRepository.findAll();
         return ResponseEntity.ok(users);
     }
-
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable int id) {
-        var user = appUserRepository.findById(id);
-        if (user.isPresent()) {
-            appUserRepository.deleteById(id);
-            return ResponseEntity.ok("User deleted successfully");
-        } else {
-            return ResponseEntity.status(404).body("User not found");
-        }
-    }
 }
