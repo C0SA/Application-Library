@@ -1,8 +1,8 @@
 package com.example.ApplicationLibrary.controller;
 
 import com.example.ApplicationLibrary.models.AppUser;
-import com.example.ApplicationLibrary.models.LoginDto;
-import com.example.ApplicationLibrary.models.RegisterDto;
+import com.example.ApplicationLibrary.dto.LoginDto;
+import com.example.ApplicationLibrary.dto.RegisterDto;
 import com.example.ApplicationLibrary.models.Role;
 import com.example.ApplicationLibrary.repository.AppUserRepository;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
