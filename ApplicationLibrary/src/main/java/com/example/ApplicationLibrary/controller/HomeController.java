@@ -8,21 +8,8 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(){
-        return "home page";
+        return "Please Login, POST http://localhost:8080/account/login and in Body in JSON put your username and password and then go to GET http://localhost:8080/books";
     }
 
-    @GetMapping("/store")
-    public String store(){
-        return "store page";
-    }
 
-    @GetMapping("/admin/home")
-    public String getAdminHome(){
-        return "admin home page";
-    }
-
-    @GetMapping("client/home")
-    public String getClientHome(){
-        return "client home page";
-    }
 }

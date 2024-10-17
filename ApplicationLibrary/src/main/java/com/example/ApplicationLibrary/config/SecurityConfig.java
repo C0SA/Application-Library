@@ -4,6 +4,7 @@ import com.example.ApplicationLibrary.service.AppUserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -36,14 +37,15 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/store/**").permitAll()
-                        .requestMatchers("/account").permitAll()
-                        .requestMatchers("/account/login").permitAll()
-                        .requestMatchers("/account/register").permitAll()
-                        .requestMatchers("/categories/**").hasRole("ADMIN")
-                        .requestMatchers("/books/**").permitAll()
+                        .requestMatchers("/","/account","/account/login","account/register").permitAll() //everyone can go to main and login/register
+                        .requestMatchers(HttpMethod.POST, "/books").hasRole("ADMIN") // Only admins can create books
+                        .requestMatchers("/books").hasAnyRole("USER","ADMIN")   //ADMINS and USERS can view books
+                        .requestMatchers("/books/status","books/search","/books/category","/books/filter").hasAnyRole("USER","ADMIN")   //ADMINS and USERS can search by name, filter by status or category
+                        .requestMatchers("/books/{id}/borrow", "/books/{id}/return").hasRole("USER") // USERS only can borrow and return books
+                        .requestMatchers("/books/**").hasRole("ADMIN")  //Only ADMINS can do CRUD operations on books
+                        .requestMatchers("/categories/**").hasRole("ADMIN") //Only ADMINS can do CRUD operations on categories
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/account/delete/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated() //to access any other link
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

@@ -10,6 +10,7 @@ import com.example.ApplicationLibrary.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class BookController {
     @Autowired
     private TransactionService transactionService;
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping("/{bookId}/categories/{categoryId}")
     public ResponseEntity<Book> addCategoryToBook(@PathVariable Long bookId, @PathVariable Long categoryId) {
         Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
@@ -68,13 +70,14 @@ public class BookController {
         return book.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book book){
         Book savedBook=bookService.save(book);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book updatedBook){
         Optional<Book> existingBook = bookService.findById(id);
@@ -87,6 +90,7 @@ public class BookController {
         }
     }
 
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("{id}")
     public ResponseEntity<Book> deleteBook(@PathVariable Long id){
         if(bookService.findById(id).isPresent()){
@@ -130,7 +134,7 @@ public class BookController {
 
 
     //5. point in pdf borrowing and returning books
-
+    @Secured({"ROLE_USER"})
     @PutMapping("/{id}/borrow")
     public ResponseEntity<Book>  borrowBook(@PathVariable Long id){
         try {
@@ -141,7 +145,7 @@ public class BookController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @Secured({"ROLE_USER"})
     @PutMapping("/{id}/return")
     public ResponseEntity<Book>  returnBook(@PathVariable Long id){
         try {
