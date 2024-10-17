@@ -22,6 +22,10 @@ Part of your yml should lool like this. If you are wondering how i got this 5432
 
 After that go to your IDE and go to src/main/java/com/example/ApplicationLibrary then right clock on ApplicationLibraryApplication and then run. Tables in your database should be created automatically. That is because of ddl-auto: update
 
+I recommend using Postman for testing (that is what i used)
+
+LINK : https://www.postman.com/downloads/
+
 /////////   TESTING    ////////
 
 
