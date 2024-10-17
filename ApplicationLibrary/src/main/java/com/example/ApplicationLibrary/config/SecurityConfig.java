@@ -78,7 +78,7 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("roles"); // This should match the claim name in your JWT
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("roles"); // This should match the claim name in JWT
         grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_"); // Spring Security expects roles to be prefixed with "ROLE_"
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();

@@ -179,9 +179,9 @@ public class AccountController {
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(24*3600))
                 .subject(appUser.getUsername())
+                .claim("userId",appUser.getId())
                 .claim("roles", List.of(appUser.getRole()))
                 .build();
-
 
         var encoder = new NimbusJwtEncoder(
                 new ImmutableSecret<>(jwtSecretKey.getBytes())
@@ -195,4 +195,8 @@ public class AccountController {
         return encoder.encode(params).getTokenValue();
 
     }
+
+
+
+
 }

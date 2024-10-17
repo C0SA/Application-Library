@@ -24,8 +24,11 @@ public class Transaction {
     @Column(name = "book_id", nullable = false)
     private Long bookId;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "transaction_type", nullable = false)
     private String transactionType;  // BORROW or RETURN

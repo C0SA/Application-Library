@@ -19,13 +19,14 @@ public class TransactionService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Transaction recordTransaction(Long userId,Long bookId, String operation){
+    public Transaction recordTransaction(String username,Long bookId,String title, String operation){
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
 
         Transaction transaction = new Transaction();
 
-        transaction.setUserId(userId);
+        transaction.setUsername(username);
         transaction.setBookId(bookId);
+        transaction.setTitle(title);
         transaction.setTransactionDate(LocalDateTime.now());
         transaction.setTransactionType(operation);
         transaction.setBookStatus(book.getStatus().name());
