@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,12 +59,6 @@ public class BookController {
         return ResponseEntity.ok(book);
     }
 
-    /*  @GetMapping("{title}")
-      public ResponseEntity<Book> getBookByTitle(@PathVariable String title){
-          Optional<Book> book = bookService.findByTitle(title);
-          return book.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-      }
-  */
     @GetMapping("{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
         Optional<Book> book = bookService.findById(id);
@@ -168,23 +160,6 @@ public class BookController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-    private Long extractUserIdFromAuth(Authentication authentication) {
-        if (authentication.getPrincipal() instanceof org.springframework.security.oauth2.jwt.Jwt jwt) {
-            System.out.println("JWT Claims: " + jwt.getClaims()); // Log all claims
-            Long userId = jwt.getClaim("userId");
-            System.out.println("Extracted userId: " + userId);
-            return userId;
-        } else {
-            System.out.println("Principal is not of type Jwt.");
-        }
-
-        return null;
-    }
-
-
-
 
 }
 

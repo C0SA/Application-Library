@@ -44,7 +44,7 @@ public class AccountController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
+    //GET for accessing profile details
     @GetMapping("/profile")
     public ResponseEntity<Object> profile(Authentication auth) {
 
@@ -59,6 +59,8 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
+
+    //POST for registering users
     @PostMapping("/register")
     public ResponseEntity<Object> register(@Valid @RequestBody RegisterDto registerDto, BindingResult result) {
 
@@ -118,6 +120,8 @@ public class AccountController {
 
     }
 
+
+    //POST for login
     @PostMapping("/login")
     public ResponseEntity<Object> login(@Valid @RequestBody LoginDto loginDto, BindingResult result) {
         if(result.hasErrors()){
@@ -155,6 +159,8 @@ public class AccountController {
         return ResponseEntity.badRequest().body("Bad username or password");
     }
 
+
+    //Function for deleting profiles
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable int id) {
@@ -169,7 +175,7 @@ public class AccountController {
     }
 
 
-
+    //Creation of JWT token
     private String createJwtToken(AppUser appUser){
 
         Instant now= Instant.now();

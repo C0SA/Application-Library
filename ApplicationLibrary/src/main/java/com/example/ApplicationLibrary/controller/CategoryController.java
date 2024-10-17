@@ -45,19 +45,6 @@ public class CategoryController {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
-    /*
-    // I am not sure if here goes void or object so i will go like in BookController.java
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteCategory(@PathVariable long id) {
-        return categoryRepository.findById(id)
-                .map(category -> {
-                    categoryRepository.delete(category);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    */
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Category> deleteCategory(@PathVariable Long id){
